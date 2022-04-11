@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
+
 @RestController
 @RequestMapping("/demo")
 public class DemoController {
@@ -14,7 +16,7 @@ public class DemoController {
     }
 
     @GetMapping("/execute")
-    public String executeDemo() {
+    public String executeDemo() throws SQLException {
         return demoService.demoCode();
     }
 }

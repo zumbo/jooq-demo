@@ -28,12 +28,17 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.1.210</version>
+			<version>1.4.200</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>jooq-meta-extensions</artifactId>
+			<version>3.14.15</version>
 		</dependency>
 	</dependencies>
 
@@ -43,7 +48,38 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<!-- Aktuelle Version 3.16 ist nicht mit spring-boot-starter-jooq 2.6.6 kompatibel -->
+				<version>3.14.11</version>
+
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<!-- Konfiguration könnte auch in separates XML ausgelagert werden. -->
+				<configuration>
+					<generator>
+						<database>
+							<name>org.jooq.meta.extensions.ddl.DDLDatabase</name>
+							<properties>
+								<property>
+									<key>scripts</key>
+									<value>src/main/resources/schema.sql</value>
+								</property>
+							</properties>
+						</database>
+						<target>
+							<packageName>ch.zumbo.jooqdemo</packageName>
+							<directory>target/generated-sources/jooq</directory>
+						</target>
+					</generator>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
