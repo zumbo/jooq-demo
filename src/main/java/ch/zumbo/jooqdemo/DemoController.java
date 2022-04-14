@@ -17,6 +17,6 @@ public class DemoController {
 
     @GetMapping("/execute")
     public String executeDemo() throws SQLException {
-        return demoService.demoCode1();
+        return demoService.demoCode();
     }
 }
