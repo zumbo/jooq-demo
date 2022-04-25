@@ -14,7 +14,7 @@
 	<name>jooq-demo</name>
 	<description>Demo project for jOOQ</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
