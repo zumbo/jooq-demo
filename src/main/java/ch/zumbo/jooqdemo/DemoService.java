@@ -19,7 +19,6 @@ public class DemoService {
     DemoService(DataSource dataSource) throws SQLException {
         connection = dataSource.getConnection();
         create = DSL.using(connection, SQLDialect.H2);
-        var t = create.fetch("");
     }
 
     public String demoCode() throws SQLException {
