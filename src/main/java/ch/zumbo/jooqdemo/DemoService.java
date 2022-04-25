@@ -28,7 +28,6 @@ public class DemoService {
 
     DemoService(DataSource dataSource) throws SQLException {
         connection = dataSource.getConnection();
-        // Create your Configuration
         Configuration configuration = new DefaultConfiguration()
                 .set(connection).set(SQLDialect.H2)
                 .set(new DefaultExecuteListenerProvider(new AuditListener())
@@ -36,7 +35,8 @@ public class DemoService {
 
         create = DSL.using(configuration);
     }
- /* 1) Mache eine DB-Abfrage nach dem Titel und Autor aller Bücher, die 1948 erschienen sind und zeige das
+
+    /* 1) Mache eine DB-Abfrage nach dem Titel und Autor aller Bücher, die 1948 erschienen sind und zeige das
        Resultat an. (Hint: der DSLContext (Variablenname per Konvention create) ist Ausgangspunkt für alle Queries.)
        Bewahre den Code zu dieser Query für Übung 8) auf. */
     public String demoCode1() {
@@ -50,6 +50,7 @@ public class DemoService {
                 result.getValue(AUTHOR.FIRST_NAME) + " " +
                 result.getValue(AUTHOR.LAST_NAME);
     }
+
     // 2) Zeige das generierte SQL aus obiger Query an (Hint: Query.getSQL())
     public String demoCode2() {
         var query = create.select(BOOK.TITLE, AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME)
@@ -100,6 +101,7 @@ public class DemoService {
                 .execute();
         return "" + result;
     }
+
     /*
      * 7) Lade das Buch mit dem Titel "Animal Farm" als Active Record
      *    (Hint: Mit create.fetchOne(Table<R> table, Condition condition) ist es besonders einfach, du kannst aber
@@ -130,10 +132,11 @@ public class DemoService {
                 result.getValue("FIRST_NAME") + " " +
                 result.getValue("LAST_NAME");
     }
+
      /* 9) Generiere die DB-Klassen wieder (kompletter Rebuild, oder ausführen des Plugins jooq-codegen).
-     *    Schaue die generierte Klasse Book an. Was ändert sich, wenn du in schema.sql die foreign keys löschst?
-     *    Füge die foreign keys wieder ein und regeneriere Book wieder. Verwende nun den zum FK generierten Code,
-     *    um die Query aus 1) ohne JOIN (implicit JOIN) umzuschreiben.
+     *     Schaue die generierte Klasse Book an. Was ändert sich, wenn du in schema.sql die foreign keys löschst?
+     *     Füge die foreign keys wieder ein und regeneriere Book wieder. Verwende nun den zum FK generierten Code,
+     *     um die Query aus 1) ohne JOIN (implicit JOIN) umzuschreiben.
      */
      public String demoCode9() {
          var result = create.select(BOOK.TITLE, BOOK.author().FIRST_NAME,  BOOK.author().LAST_NAME)
@@ -144,13 +147,15 @@ public class DemoService {
                  result.getValue(AUTHOR.FIRST_NAME) + " " +
                  result.getValue(AUTHOR.LAST_NAME);
      }
+
      /* 10) Gib eine Liste aller Bücher aus, ohne Loops zu verwenden.
-     *     (Hint: Result hat die Methoden map() und stream())
+     *      (Hint: Result hat die Methoden map() und stream())
      */
     public String demoCode10() {
         return create.selectFrom(BOOK).stream().map(BookRecord::getTitle).collect(Collectors.joining(" "));
     }
+
      /* 11) Bonusaufgabe: Schreibe einen ExecuteListener, der ein Audit-Log (Konsolenausgabe reicht hier) für
-     *     alle Schreiboperationen führt.
+     *      alle Schreiboperationen führt.
      */
 }
